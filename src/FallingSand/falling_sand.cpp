@@ -1,19 +1,24 @@
-#include "render.hpp"
+#include "falling_sand.hpp"
 
-std::vector<std::vector<int>> Render::make2Darray() {
+FallingSand::FallingSand(int screenWidth, int screenHeight,
+                         std::shared_ptr<sf::RenderWindow> window)
+    : cols(screenWidth / CELL_SIZE), rows(screenHeight / CELL_SIZE),
+      window(window) {
+    setupGrid();
+}
+
+std::vector<std::vector<int>> FallingSand::make2Darray() {
     return std::vector<std::vector<int>>(cols, std::vector<int>(rows, 0));
 }
 
-void Render::setupGrid() {
+void FallingSand::setupGrid() {
     grid = make2Darray();
-    for (auto i = 0U; i < grid.size(); ++i) {
-        for (auto j = 0U; j < grid[i].size(); ++j) {
-            grid[i][j] = 0;
-        }
+    for (auto &row : grid) {
+        std::fill(row.begin(), row.end(), 0);
     }
 }
 
-sf::Color hsvToRgb(float h, float s, float v) {
+sf::Color FallingSand::HSV2RGB(float h, float s, float v) {
     int i = static_cast<int>(h * 6);
     float f = h * 6 - i;
     float p = v * (1 - s);
@@ -38,20 +43,19 @@ sf::Color hsvToRgb(float h, float s, float v) {
     }
 }
 
-sf::Color Render::getColorByValue(int value) {
+sf::Color FallingSand::getColorByValue(int value) {
     float hue = static_cast<float>(value) / 255.0f * 360.0f;
     float saturation = 0.8f;
     float brightness = 0.8f;
-
-    return hsvToRgb(hue / 360.0f, saturation, brightness);
+    return HSV2RGB(hue / 360.0f, saturation, brightness);
 }
 
-void Render::mouseDragged() {
+void FallingSand::mouseDragged(sf::Vector2i mousePosition) {
     static int colorSand = 0;
     int mouseX = std::floor(mousePosition.x / CELL_SIZE);
     int mouseY = std::floor(mousePosition.y / CELL_SIZE);
 
-    int matrixSize = 2;
+    int matrixSize = 5;
     int extent = std::floor(matrixSize / 2);
     for (int i = -extent; i <= extent; ++i) {
         for (int j = -extent; j <= extent; ++j) {
@@ -62,13 +66,11 @@ void Render::mouseDragged() {
             }
         }
     }
-
     colorSand = (colorSand + 1) % 360;
 }
 
-void Render::sandMovement() {
+void FallingSand::sandMovement() {
     auto nextGrid = make2Darray();
-
     for (int i = 0; i < cols; ++i) {
         for (int j = 0; j < rows; ++j) {
             if (grid[i][j] > 0) {
@@ -101,4 +103,18 @@ void Render::sandMovement() {
     }
 
     grid = nextGrid;
+}
+
+void FallingSand::draw() {
+    sf::CircleShape sand(CELL_SIZE);
+    for (size_t i = 0; i < grid.size(); ++i) {
+        for (size_t j = 0; j < grid[i].size(); ++j) {
+            if (grid[i][j] > 0) {
+                sand.setFillColor(getColorByValue(grid[i][j]));
+                sand.setPosition(static_cast<float>(i * CELL_SIZE),
+                                 static_cast<float>(j * CELL_SIZE));
+                window->draw(sand);
+            }
+        }
+    }
 }

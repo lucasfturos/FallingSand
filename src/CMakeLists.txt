@@ -2,14 +2,13 @@
 
 # List all the header files in the src directory
 set(SRC_HEADERS
+    FallingSand/falling_sand.hpp
     Render/render.hpp
 )
 
 # List all the source files in the src directory
 set(SRC_SOURCES
-    Render/draw.cpp
-    Render/handle.cpp
-    Render/logic.cpp
+    FallingSand/falling_sand.cpp
     Render/render.cpp
     main.cpp
 )
