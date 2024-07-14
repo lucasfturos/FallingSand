@@ -12,9 +12,9 @@ class Render {
   private:
     std::shared_ptr<sf::RenderWindow> window;
     std::shared_ptr<sf::VideoMode> desktop;
-    std::shared_ptr<FallingSand> fallingSand;
-
     sf::Vector2i mousePosition;
+
+    std::shared_ptr<FallingSand> fallingSand;
 
   private:
     void handleEvents();

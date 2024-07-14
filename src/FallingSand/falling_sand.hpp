@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Common/common.hpp"
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <memory>
@@ -13,10 +14,6 @@ class FallingSand {
     int cols, rows;
     std::shared_ptr<sf::RenderWindow> window;
     std::vector<std::vector<int>> grid;
-
-    sf::Color getColorByValue(int);
-    sf::Color HSV2RGB(float, float, float);
-    std::vector<std::vector<int>> make2Darray();
 
   public:
     FallingSand(int screenWidth, int screenHeight,
