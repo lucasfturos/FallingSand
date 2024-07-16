@@ -46,6 +46,41 @@ void SandTetrix::setRotate() {
     }
 }
 
+void SandTetrix::sandMovement() {
+    auto nextBoard = make2Darray(rows, cols);
+    for (int i = 0; i < cols; ++i) {
+        for (int j = 0; j < rows; ++j) {
+            if (board[i][j] > 0) {
+                int state = board[i][j];
+                int below = (j + 1 < rows) ? board[i][j + 1] : -1;
+
+                int dir = 1;
+                if (std::rand() % 2 == 0) {
+                    dir *= -1;
+                }
+
+                int belowA = (i + dir >= 0 && i + dir < cols && j + 1 < rows)
+                                 ? board[i + dir][j + 1]
+                                 : -1;
+                int belowB = (i - dir >= 0 && i - dir < cols && j + 1 < rows)
+                                 ? board[i - dir][j + 1]
+                                 : -1;
+
+                if (below == 0) {
+                    nextBoard[i][j + 1] = state;
+                } else if (belowA == 0) {
+                    nextBoard[i + dir][j + 1] = state;
+                } else if (belowB == 0) {
+                    nextBoard[i - dir][j + 1] = state;
+                } else {
+                    nextBoard[i][j] = state;
+                }
+            }
+        }
+    }
+    board = nextBoard;
+}
+
 void SandTetrix::move2Down() {
     if (timerCount > dash) {
         for (auto i = 0; i < squares; ++i) {
@@ -65,7 +100,6 @@ void SandTetrix::move2Down() {
             }
             spawnPieces();
         }
-
         timerCount = 0;
     }
 }
@@ -87,8 +121,16 @@ void SandTetrix::setScore() {
     int linesClearedThisFrame = 0;
     for (int y = rows - 1; y >= 0; --y) {
         bool lineFull = true;
+        int lineColor = 0;
+
         for (int x = 0; x < cols; ++x) {
             if (board[x][y] == 0) {
+                lineFull = false;
+                break;
+            }
+            if (lineColor == 0) {
+                lineColor = board[x][y];
+            } else if (board[x][y] != lineColor) {
                 lineFull = false;
                 break;
             }
@@ -96,6 +138,11 @@ void SandTetrix::setScore() {
 
         if (lineFull) {
             ++linesClearedThisFrame;
+            for (int x = 0; x < cols; ++x) {
+                if (board[x][y] == lineColor) {
+                    board[x][y] = 0;
+                }
+            }
             for (int newY = y; newY > 0; --newY) {
                 for (int x = 0; x < cols; ++x) {
                     board[x][newY] = board[x][newY - 1];

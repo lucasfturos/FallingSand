@@ -1,4 +1,5 @@
 #include "sand_tetrix.hpp"
+#include <SFML/Graphics/CircleShape.hpp>
 
 void SandTetrix::drawBoard() {
     sf::Color lineColor(255, 255, 255, 50);
@@ -16,26 +17,49 @@ void SandTetrix::drawBoard() {
     window->draw(lines);
 }
 
+void SandTetrix::drawSandBlock(sf::Vector2f position, sf::Color color) {
+    int grainsPerCell = cellSize / sandGrainSize;
+    sf::CircleShape sandBlock(sandGrainSize / 2.0f - 1);
+    sandBlock.setFillColor(color);
+
+    for (int i = 0; i < grainsPerCell; ++i) {
+        for (int j = 0; j < grainsPerCell; ++j) {
+            sandBlock.setPosition(position.x + i * sandGrainSize,
+                                  position.y + j * sandGrainSize);
+            window->draw(sandBlock);
+        }
+    }
+}
+
+void SandTetrix::drawSandGrain(sf::Vector2f position, sf::Color color) {
+    int grainsPerCell = cellSize / sandGrainSize;
+    sf::CircleShape sandGrain(sandGrainSize);
+    sandGrain.setFillColor(color);
+
+    for (int i = 0; i < grainsPerCell; ++i) {
+        for (int j = 0; j < grainsPerCell; ++j) {
+            sandGrain.setPosition(position.x * cellSize + i * sandGrainSize,
+                                  position.y * cellSize + j * sandGrainSize);
+            window->draw(sandGrain);
+        }
+    }
+}
+
 void SandTetrix::drawPieces() {
     for (int y = 0; y < rows; ++y) {
         for (int x = 0; x < cols; ++x) {
-            if (board[x][y] != 0) {
-                sf::RectangleShape cell(
-                    sf::Vector2f(cellSize - 1, cellSize - 1));
-                cell.setPosition(x * cellSize, y * cellSize);
-                cell.setFillColor(colors[board[x][y] - 1]);
-                window->draw(cell);
+            if (board[x][y] < 0) {
+                drawSandBlock(sf::Vector2f(x * cellSize, y * cellSize),
+                              colors[board[x][y] - 1]);
+            } else {
+                drawSandGrain(sf::Vector2f(x, y), colors[board[x][y] - 1]);
             }
         }
     }
+
     for (const auto &pos : z) {
-        sf::RectangleShape cell(sf::Vector2f(cellSize - 1, cellSize - 1));
-        cell.setPosition(pos.x * cellSize, pos.y * cellSize);
-        if (board[pos.x][pos.y] > 0) {
-            cell.setFillColor(colors[board[pos.x][pos.y] - 1]);
-        }
-        cell.setFillColor(currentPieceColor);
-        window->draw(cell);
+        drawSandBlock(sf::Vector2f(pos.x * cellSize, pos.y * cellSize),
+                      currentPieceColor);
     }
 }
 

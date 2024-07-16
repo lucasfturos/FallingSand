@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../Common/common.hpp"
-#include <SFML/Graphics.hpp>
 #include <cmath>
 #include <memory>
 
@@ -12,7 +11,7 @@ class SandTetrix {
     const int shapes = 7;
     const int squares = 4;
     const int cellSize = 36;
-    // const int sandGrainSize = 2;
+    const int sandGrainSize = 5;
 
     const std::string filepathFont =
         "assets/font/press-start-2p/PressStart2P-Regular.ttf";
@@ -58,11 +57,10 @@ class SandTetrix {
     bool checkCollision();
     void move2Down();
     void resetValues();
-    // void sandMovement();
+    void sandMovement();
     void setRotate();
     void setScore();
     void spawnPieces();
-    // void transform2Sand();
 
     void drawCenteredText(sf::Vector2f, sf::Color, const std::string &, int);
     void drawTextAtPosition(sf::Vector2f, sf::Color, const std::string &, int);
@@ -74,10 +72,12 @@ class SandTetrix {
     void drawGameStats();
     void drawPieces();
     void drawPreview();
+    void drawSandBlock(sf::Vector2f, sf::Color);
+    void drawSandGrain(sf::Vector2f, sf::Color);
 
   public:
     SandTetrix(std::shared_ptr<sf::RenderWindow>);
-    
+
     void setupGame();
     void handleEvents(const sf::Event &);
     void draw();

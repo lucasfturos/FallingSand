@@ -2,7 +2,6 @@
 
 #include "../FallingSand/falling_sand.hpp"
 #include "../SandTetrix/sand_tetrix.hpp"
-#include <SFML/Graphics.hpp>
 #include <memory>
 
 class Render {

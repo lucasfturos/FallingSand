@@ -87,6 +87,7 @@ void SandTetrix::run() {
         setRotate();
         move2Down();
         setScore();
+        sandMovement();
         resetValues();
     }
 }
