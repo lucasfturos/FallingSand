@@ -5,12 +5,12 @@ Render::Render()
           sf::VideoMode(WIDTH, HEIGHT), "Falling Sand",
           sf::Style::Titlebar | sf::Style::Close)),
       desktop(std::make_shared<sf::VideoMode>(sf::VideoMode::getDesktopMode())),
-      mousePosition(sf::Vector2i(WIDTH / 2, HEIGHT / 2)) {
+      fallingSand(std::make_shared<FallingSand>(WIDTH, HEIGHT, window)),
+      sandTetrix(std::make_shared<SandTetrix>(window)),
+      mousePosition(sf::Vector2i(WIDTH / 2, HEIGHT / 2)), opc(2) {
     window->setPosition(
         sf::Vector2i(desktop->width / 2.0 - window->getSize().x / 2.0,
                      desktop->height / 2.0 - window->getSize().y / 2.0));
-
-    fallingSand = std::make_shared<FallingSand>(WIDTH, HEIGHT, window);
 }
 
 void Render::handleEvents() {
@@ -25,9 +25,21 @@ void Render::handleEvents() {
             case sf::Keyboard::Escape:
                 window->close();
                 break;
-            case sf::Keyboard::R:
-                fallingSand->setupGrid();
+            case sf::Keyboard::Num1:
+                opc = 1;
                 break;
+            case sf::Keyboard::Num2:
+                opc = 2;
+                break;
+            case sf::Keyboard::R: {
+                if (opc == 1) {
+                    fallingSand->setupGrid();
+                }
+                if (opc == 2) {
+                    sandTetrix->setupGame();
+                }
+                break;
+            }
             default:
                 break;
             }
@@ -36,12 +48,16 @@ void Render::handleEvents() {
         default:
             break;
         }
+
+        if (opc == 2) {
+            sandTetrix->handleKeyboardEvent(event);
+        }
     }
 }
 
 void Render::handleMouse() {
     mousePosition = sf::Mouse::getPosition(*window);
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+    if (opc == 1) {
         fallingSand->mouseDragged(mousePosition);
     }
 }
@@ -58,7 +74,12 @@ void Render::drawPointer() {
 
 void Render::draw() {
     window->clear();
-    fallingSand->draw();
+    if (opc == 1) {
+        fallingSand->draw();
+    }
+    if (opc == 2) {
+        sandTetrix->draw();
+    }
     drawPointer();
     window->display();
 }
@@ -68,7 +89,9 @@ void Render::run() {
     while (window->isOpen()) {
         handleEvents();
         handleMouse();
-        fallingSand->sandMovement();
         draw();
+        if (opc == 2) {
+            sandTetrix->run();
+        }
     }
 }

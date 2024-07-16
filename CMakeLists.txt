@@ -1,21 +1,28 @@
 # -------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.4...3.20 FATAL_ERROR)  # CMake version check
+cmake_minimum_required(VERSION 3.4...3.20 FATAL_ERROR)
 
 
 # -------------------------------------------------------------------
 
-set(PROJECT_NAME                      # Define all project info
-    FallingSand 
+set(PROJECT_NAME
+    FallingSand
     LANGUAGES CXX
     VERSION 1.0.0
 )
 
-project(${PROJECT_NAME})              # Create project
+project(${PROJECT_NAME})
 
-set(CMAKE_CXX_STANDARD 20)            # Enable c++20 standard
+set(CMAKE_CXX_STANDARD 20)
 
-# Flags of compiling
+set(RESOURCES_DIRECTORY 
+  "${CMAKE_SOURCE_DIR}/assets"
+)
+
+file(COPY ${RESOURCES_DIRECTORY} 
+  DESTINATION ${CMAKE_BINARY_DIR}
+)
+
 add_compile_options(
     -Wall -Wextra -Wpedantic -Werror -pedantic -g -Ofast 
 )

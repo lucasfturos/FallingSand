@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../FallingSand/falling_sand.hpp"
+#include "../SandTetrix/sand_tetrix.hpp"
 #include <SFML/Graphics.hpp>
 #include <memory>
 
@@ -12,9 +13,10 @@ class Render {
   private:
     std::shared_ptr<sf::RenderWindow> window;
     std::shared_ptr<sf::VideoMode> desktop;
-    sf::Vector2i mousePosition;
-
     std::shared_ptr<FallingSand> fallingSand;
+    std::shared_ptr<SandTetrix> sandTetrix;
+    sf::Vector2i mousePosition;
+    int opc;
 
   private:
     void handleEvents();

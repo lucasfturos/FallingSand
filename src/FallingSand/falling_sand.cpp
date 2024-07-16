@@ -2,7 +2,7 @@
 
 FallingSand::FallingSand(int screenWidth, int screenHeight,
                          std::shared_ptr<sf::RenderWindow> window)
-    : cols(screenWidth / CELL_SIZE), rows(screenHeight / CELL_SIZE),
+    : cols(screenWidth / cellSize), rows(screenHeight / cellSize),
       window(window) {
     setupGrid();
 }
@@ -15,22 +15,24 @@ void FallingSand::setupGrid() {
 }
 
 void FallingSand::mouseDragged(sf::Vector2i mousePosition) {
-    static int colorSand = 0;
-    int mouseX = std::floor(mousePosition.x / CELL_SIZE);
-    int mouseY = std::floor(mousePosition.y / CELL_SIZE);
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        static int colorSand = 0;
+        int mouseX = std::floor(mousePosition.x / cellSize);
+        int mouseY = std::floor(mousePosition.y / cellSize);
 
-    int matrixSize = 5;
-    int extent = std::floor(matrixSize / 2);
-    for (int i = -extent; i <= extent; ++i) {
-        for (int j = -extent; j <= extent; ++j) {
-            int x = mouseX + i;
-            int y = mouseY + j;
-            if (x >= 0 && x < cols && y >= 0 && y < rows) {
-                grid[x][y] = colorSand;
+        int matrixSize = 5;
+        int extent = std::floor(matrixSize / 2);
+        for (int i = -extent; i <= extent; ++i) {
+            for (int j = -extent; j <= extent; ++j) {
+                int x = mouseX + i;
+                int y = mouseY + j;
+                if (x >= 0 && x < cols && y >= 0 && y < rows) {
+                    grid[x][y] = colorSand;
+                }
             }
         }
+        colorSand = (colorSand + 1) % 360;
     }
-    colorSand = (colorSand + 1) % 360;
 }
 
 void FallingSand::sandMovement() {
@@ -42,7 +44,7 @@ void FallingSand::sandMovement() {
                 int below = (j + 1 < rows) ? grid[i][j + 1] : -1;
 
                 int dir = 1;
-                if (rand() % 2 == 0) {
+                if (std::rand() % 2 == 0) {
                     dir *= -1;
                 }
 
@@ -70,13 +72,15 @@ void FallingSand::sandMovement() {
 }
 
 void FallingSand::draw() {
-    sf::CircleShape sand(CELL_SIZE);
+    sandMovement();
+    
+    sf::CircleShape sand(cellSize);
     for (size_t i = 0; i < grid.size(); ++i) {
         for (size_t j = 0; j < grid[i].size(); ++j) {
             if (grid[i][j] > 0) {
                 sand.setFillColor(getColorByValue(grid[i][j]));
-                sand.setPosition(static_cast<float>(i * CELL_SIZE),
-                                 static_cast<float>(j * CELL_SIZE));
+                sand.setPosition(static_cast<float>(i * cellSize),
+                                 static_cast<float>(j * cellSize));
                 window->draw(sand);
             }
         }
