@@ -1,5 +1,5 @@
+#include "../Common/common.hpp"
 #include "sand_tetrix.hpp"
-#include <SFML/Graphics/CircleShape.hpp>
 
 void SandTetrix::drawBoard() {
     sf::Color lineColor(255, 255, 255, 50);

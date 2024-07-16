@@ -1,13 +1,12 @@
 #pragma once
 
-#include "../Common/common.hpp"
+#include <SFML/Graphics.hpp>
 #include <cmath>
 #include <memory>
+#include <vector>
 
 class SandTetrix {
   protected:
-    const int cols = 20;
-    const int rows = 20;
     const int shapes = 7;
     const int squares = 4;
     const int cellSize = 36;
@@ -35,6 +34,8 @@ class SandTetrix {
     std::vector<sf::Vector2i> z;
     std::vector<sf::Vector2i> k;
     bool isRunning;
+    int cols;
+    int rows;
     int linesCleared;
     int nextPieceIndex;
     int currentPieceIndex;
