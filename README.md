@@ -51,6 +51,7 @@ cd build ; make -j4
 
 </details>
 
-## Referência
+## Créditos
 
-[The Coding Train - Coding Challenge 180: Falling Sand](https://youtu.be/L4u7Zy_b868?si=NrrbIQL8i-JnHlBl)
+1. [Coding Challenge 180: Falling Sand - The Coding Train](https://youtu.be/L4u7Zy_b868?si=NrrbIQL8i-JnHlBl)
+2. [Press Start 2P Font - codeman38](https://www.1001fonts.com/press-start-2p-font.html)

@@ -31,7 +31,7 @@ void SandTetrix::setupGame() {
     spawnPieces();
 }
 
-void SandTetrix::handleKeyboardEvent(const sf::Event &event) {
+void SandTetrix::handleEvents(const sf::Event &event) {
     if (event.type == sf::Event::KeyPressed) {
         switch (event.key.code) {
         case sf::Keyboard::W:
@@ -67,10 +67,13 @@ void SandTetrix::draw() {
     drawBoard();
     drawPieces();
     drawPreview();
-    drawText();
+    drawGameStats();
     if (gameover) {
         drawGameOver();
         isRunning = false;
+    }
+    if (!isRunning && !gameover) {
+        drawGameStart();
     }
 }
 
@@ -78,7 +81,6 @@ void SandTetrix::run() {
     float t = clock.getElapsedTime().asSeconds();
     clock.restart();
     timerCount += t;
-
     if (isRunning && !gameover) {
         elapsedTime += t;
         changePosition();

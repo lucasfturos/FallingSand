@@ -2,7 +2,6 @@
 
 #include "../Common/common.hpp"
 #include <SFML/Graphics.hpp>
-#include <SFML/System/Vector2.hpp>
 #include <cmath>
 #include <memory>
 
@@ -13,6 +12,7 @@ class SandTetrix {
     const int shapes = 7;
     const int squares = 4;
     const int cellSize = 36;
+    // const int sandGrainSize = 2;
 
     const std::string filepathFont =
         "assets/font/press-start-2p/PressStart2P-Regular.ttf";
@@ -58,23 +58,28 @@ class SandTetrix {
     bool checkCollision();
     void move2Down();
     void resetValues();
+    // void sandMovement();
     void setRotate();
     void setScore();
     void spawnPieces();
+    // void transform2Sand();
 
-    std::string formatTime(float seconds);
-    void drawTextParams(sf::Vector2f, sf::Color, const std::string &, int);
+    void drawCenteredText(sf::Vector2f, sf::Color, const std::string &, int);
+    void drawTextAtPosition(sf::Vector2f, sf::Color, const std::string &, int);
 
     void drawBoard();
+    void drawFlashingPieces();
     void drawGameOver();
+    void drawGameStart();
+    void drawGameStats();
     void drawPieces();
     void drawPreview();
-    void drawText();
 
   public:
     SandTetrix(std::shared_ptr<sf::RenderWindow>);
+    
     void setupGame();
-    void handleKeyboardEvent(const sf::Event &);
+    void handleEvents(const sf::Event &);
     void draw();
     void run();
 };

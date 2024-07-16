@@ -50,7 +50,7 @@ void Render::handleEvents() {
         }
 
         if (opc == 2) {
-            sandTetrix->handleKeyboardEvent(event);
+            sandTetrix->handleEvents(event);
         }
     }
 }

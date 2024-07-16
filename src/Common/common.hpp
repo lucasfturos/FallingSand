@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <iomanip>
+#include <sstream>
 #include <vector>
 
 inline std::vector<std::vector<int>> make2Darray(int rows, int cols) {
@@ -37,4 +39,17 @@ inline sf::Color getColorByValue(int value) {
     float saturation = 0.8f;
     float brightness = 0.8f;
     return HSV2RGB(hue / 360.0f, saturation, brightness);
+}
+
+inline std::string formatTime(float seconds) {
+    int totalSeconds = static_cast<int>(seconds);
+    int hours = totalSeconds / 3600;
+    int minutes = (totalSeconds % 3600) / 60;
+    int secs = totalSeconds % 60;
+
+    std::ostringstream oss;
+    oss << std::setfill('0') << std::setw(2) << hours << ":"
+        << std::setfill('0') << std::setw(2) << minutes << ":"
+        << std::setfill('0') << std::setw(2) << secs;
+    return oss.str();
 }

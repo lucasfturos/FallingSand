@@ -1,6 +1,4 @@
 #include "sand_tetrix.hpp"
-#include <iomanip>
-#include <sstream>
 
 void SandTetrix::drawBoard() {
     sf::Color lineColor(255, 255, 255, 50);
@@ -69,8 +67,8 @@ void SandTetrix::drawPreview() {
     }
 }
 
-void SandTetrix::drawTextParams(sf::Vector2f pos, sf::Color color,
-                                const std::string &str, int size) {
+void SandTetrix::drawTextAtPosition(sf::Vector2f pos, sf::Color color,
+                                    const std::string &str, int size) {
     sf::Text text;
     text.setFont(font);
     text.setPosition(pos.x, pos.y);
@@ -80,32 +78,51 @@ void SandTetrix::drawTextParams(sf::Vector2f pos, sf::Color color,
     window->draw(text);
 }
 
-std::string SandTetrix::formatTime(float seconds) {
-    int totalSeconds = static_cast<int>(seconds);
-    int hours = totalSeconds / 3600;
-    int minutes = (totalSeconds % 3600) / 60;
-    int secs = totalSeconds % 60;
+void SandTetrix::drawCenteredText(sf::Vector2f pos, sf::Color color,
+                                  const std::string &str, int size) {
+    sf::Text text;
+    text.setFont(font);
+    text.setString(str);
+    text.setCharacterSize(size);
+    text.setFillColor(color);
 
-    std::ostringstream oss;
-    oss << std::setfill('0') << std::setw(2) << hours << ":"
-        << std::setfill('0') << std::setw(2) << minutes << ":"
-        << std::setfill('0') << std::setw(2) << secs;
-    return oss.str();
+    sf::FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width / 2.0f,
+                   textRect.top + textRect.height / 2.0f);
+    text.setPosition(pos);
+    window->draw(text);
 }
 
-void SandTetrix::drawText() {
+void SandTetrix::drawGameStart() {
+    sf::RectangleShape overlay;
+    overlay.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
+    overlay.setFillColor(sf::Color::Black);
+    window->draw(overlay);
+
+    sf::Vector2f textTitlePos(window->getSize().x / 2.0f,
+                              window->getSize().y / 2.0f - 50);
+    drawCenteredText(textTitlePos, sf::Color::White, "SandTetrix", 48);
+
+    sf::Vector2f textStartPos(window->getSize().x / 2.0f,
+                              window->getSize().y / 2.0f + 20);
+    drawCenteredText(textStartPos, sf::Color::White, "Press Space to Start",
+                     24);
+}
+
+void SandTetrix::drawGameStats() {
     sf::Vector2f textTimePos(((cols * cellSize) + window->getSize().x) * 0.42f,
                              300.0f);
     std::string timeStr = formatTime(elapsedTime);
-    drawTextParams(textTimePos, sf::Color::White, timeStr, 24);
+    drawTextAtPosition(textTimePos, sf::Color::White, timeStr, 24);
 
     sf::Vector2f textScorePos(textTimePos.x, 350.0f);
     std::string scoreStr = "Score: " + std::to_string(score);
-    drawTextParams(textScorePos, sf::Color::White, scoreStr, 24);
+    drawTextAtPosition(textScorePos, sf::Color::White, scoreStr, 24);
 
     sf::Vector2f textLinesClearedPos(textTimePos.x, 400.0f);
     std::string linesClearedStr = "Lines: " + std::to_string(linesCleared);
-    drawTextParams(textLinesClearedPos, sf::Color::White, linesClearedStr, 24);
+    drawTextAtPosition(textLinesClearedPos, sf::Color::White, linesClearedStr,
+                       24);
 }
 
 void SandTetrix::drawGameOver() {
@@ -114,29 +131,11 @@ void SandTetrix::drawGameOver() {
     overlay.setFillColor(sf::Color(0, 0, 0, 200));
     window->draw(overlay);
 
-    sf::Text textGameOver;
-    textGameOver.setFont(font);
-    textGameOver.setFillColor(sf::Color::White);
-    textGameOver.setString("Game Over");
-    textGameOver.setCharacterSize(56);
-
-    sf::FloatRect textRect = textGameOver.getLocalBounds();
-    textGameOver.setOrigin(textRect.left + textRect.width / 2.0f,
-                           textRect.top + textRect.height / 2.0f);
-    textGameOver.setPosition(sf::Vector2f(window->getSize().x / 2.0f,
-                                          window->getSize().y / 2.0f - 35.0f));
-    window->draw(textGameOver);
-
-    sf::Text textRestart;
-    textRestart.setFont(font);
-    textRestart.setFillColor(sf::Color::White);
-    textRestart.setString("Press R to Restart");
-    textRestart.setCharacterSize(24);
-
-    sf::FloatRect restartRect = textRestart.getLocalBounds();
-    textRestart.setOrigin(restartRect.left + restartRect.width / 2.0f,
-                          restartRect.top + restartRect.height / 2.0f);
-    textRestart.setPosition(sf::Vector2f(window->getSize().x / 2.0f,
-                                         window->getSize().y / 2.0f + 30.0f));
-    window->draw(textRestart);
+    sf::Vector2f textGameOverPos(window->getSize().x / 2.0f,
+                                 window->getSize().y / 2.0f - 35.0f);
+    drawCenteredText(textGameOverPos, sf::Color::White, "Game Over", 56);
+    sf::Vector2f textRestartPos(window->getSize().x / 2.0f,
+                                window->getSize().y / 2.0f + 30.0f);
+    drawCenteredText(textRestartPos, sf::Color::White, "Press R to Restart",
+                     24);
 }
