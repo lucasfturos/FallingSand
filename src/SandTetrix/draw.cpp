@@ -1,5 +1,6 @@
 #include "../Common/common.hpp"
 #include "sand_tetrix.hpp"
+#include <SFML/Graphics/RectangleShape.hpp>
 
 void SandTetrix::drawBoard() {
     sf::Color lineColor(255, 255, 255, 50);
@@ -18,31 +19,10 @@ void SandTetrix::drawBoard() {
 }
 
 void SandTetrix::drawSandBlock(sf::Vector2f position, sf::Color color) {
-    int grainsPerCell = cellSize / sandGrainSize;
-    sf::CircleShape sandBlock(sandGrainSize / 2.0f - 1);
+    sf::RectangleShape sandBlock(sf::Vector2f(cellSize - 1, cellSize - 1));
     sandBlock.setFillColor(color);
-
-    for (int i = 0; i < grainsPerCell; ++i) {
-        for (int j = 0; j < grainsPerCell; ++j) {
-            sandBlock.setPosition(position.x + i * sandGrainSize,
-                                  position.y + j * sandGrainSize);
-            window->draw(sandBlock);
-        }
-    }
-}
-
-void SandTetrix::drawSandGrain(sf::Vector2f position, sf::Color color) {
-    int grainsPerCell = cellSize / sandGrainSize;
-    sf::CircleShape sandGrain(sandGrainSize);
-    sandGrain.setFillColor(color);
-
-    for (int i = 0; i < grainsPerCell; ++i) {
-        for (int j = 0; j < grainsPerCell; ++j) {
-            sandGrain.setPosition(position.x * cellSize + i * sandGrainSize,
-                                  position.y * cellSize + j * sandGrainSize);
-            window->draw(sandGrain);
-        }
-    }
+    sandBlock.setPosition(position.x, position.y);
+    window->draw(sandBlock);
 }
 
 void SandTetrix::drawPieces() {
@@ -52,7 +32,8 @@ void SandTetrix::drawPieces() {
                 drawSandBlock(sf::Vector2f(x * cellSize, y * cellSize),
                               colors[board[x][y] - 1]);
             } else {
-                drawSandGrain(sf::Vector2f(x, y), colors[board[x][y] - 1]);
+                drawSandBlock(sf::Vector2f(x * cellSize, y * cellSize),
+                              colors[board[x][y] - 1]);
             }
         }
     }

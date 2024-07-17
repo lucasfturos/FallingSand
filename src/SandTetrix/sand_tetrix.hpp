@@ -74,7 +74,6 @@ class SandTetrix {
     void drawPieces();
     void drawPreview();
     void drawSandBlock(sf::Vector2f, sf::Color);
-    void drawSandGrain(sf::Vector2f, sf::Color);
 
   public:
     SandTetrix(std::shared_ptr<sf::RenderWindow>);

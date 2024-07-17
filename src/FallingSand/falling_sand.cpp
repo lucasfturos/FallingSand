@@ -1,4 +1,5 @@
 #include "falling_sand.hpp"
+#include "../Common/common.hpp"
 
 FallingSand::FallingSand(int screenWidth, int screenHeight,
                          std::shared_ptr<sf::RenderWindow> window)
@@ -73,7 +74,7 @@ void FallingSand::sandMovement() {
 
 void FallingSand::draw() {
     sandMovement();
-    
+
     sf::CircleShape sand(cellSize);
     for (size_t i = 0; i < grid.size(); ++i) {
         for (size_t j = 0; j < grid[i].size(); ++j) {
