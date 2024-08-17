@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../FallingSand/falling_sand.hpp"
-#include "../SandTetrix/sand_tetrix.hpp"
+#include "FallingSand/falling_sand.hpp"
+#include "SandTetrix/sand_tetrix.hpp"
 #include <memory>
 
 class Render {

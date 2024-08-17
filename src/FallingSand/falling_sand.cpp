@@ -1,5 +1,5 @@
 #include "falling_sand.hpp"
-#include "../Common/common.hpp"
+#include "Common/common.hpp"
 
 FallingSand::FallingSand(int screenWidth, int screenHeight,
                          std::shared_ptr<sf::RenderWindow> window)

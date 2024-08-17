@@ -7,7 +7,7 @@ Render::Render()
       desktop(std::make_shared<sf::VideoMode>(sf::VideoMode::getDesktopMode())),
       fallingSand(std::make_shared<FallingSand>(WIDTH, HEIGHT, window)),
       sandTetrix(std::make_shared<SandTetrix>(window)),
-      mousePosition(sf::Vector2i(WIDTH / 2, HEIGHT / 2)), opc(2) {
+      mousePosition(sf::Vector2i(WIDTH / 2, HEIGHT / 2)), opc(1) {
     window->setPosition(
         sf::Vector2i(desktop->width / 2.0 - window->getSize().x / 2.0,
                      desktop->height / 2.0 - window->getSize().y / 2.0));

@@ -1,5 +1,4 @@
 #include "sand_tetrix.hpp"
-#include "../Common/common.hpp"
 
 SandTetrix::SandTetrix(std::shared_ptr<sf::RenderWindow> window)
     : window(window), z(std::vector<sf::Vector2i>(squares, sf::Vector2i(0, 0))),

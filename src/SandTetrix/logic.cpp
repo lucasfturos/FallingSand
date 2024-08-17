@@ -1,4 +1,3 @@
-#include "../Common/common.hpp"
 #include "sand_tetrix.hpp"
 
 void SandTetrix::spawnPieces() {
