@@ -19,8 +19,11 @@ class Render {
     bool useShader;
 
   private:
+    sf::Clock clock;
     sf::Shader shader;
     sf::RenderTexture renderTex;
+
+    void setupShader();
 
     void handleEvents();
     void handleMouse();

@@ -54,4 +54,6 @@ cd build ; make -j4
 ## Créditos
 
 1. [Coding Challenge 180: Falling Sand - The Coding Train](https://youtu.be/L4u7Zy_b868?si=NrrbIQL8i-JnHlBl)
-2. [Press Start 2P Font - codeman38](https://www.1001fonts.com/press-start-2p-font.html)
+2. [crt shader effect - lalaoopybee](https://www.shadertoy.com/view/DlfSz8)
+3. [Press Start 2P Font - codeman38](https://www.1001fonts.com/press-start-2p-font.html)
+4. [Screen Flicker - chipbell4](https://www.shadertoy.com/view/Xsd3zM)

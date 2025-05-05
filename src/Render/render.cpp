@@ -13,11 +13,18 @@ Render::Render()
         sf::Vector2i(desktop->width / 2.0 - window->getSize().x / 2.0,
                      desktop->height / 2.0 - window->getSize().y / 2.0));
 
+    setupShader();
+}
+
+void Render::setupShader() {
     if (!shader.loadFromFile("assets/shader/crt_effect.frag",
                              sf::Shader::Fragment)) {
         throw std::runtime_error("Failed to load shader.");
     }
     renderTex.create(WIDTH, HEIGHT);
+
+    shader.setUniform("texture", sf::Shader::CurrentTexture);
+    shader.setUniform("resolution", sf::Vector2f(renderTex.getSize()));
 }
 
 void Render::drawPointer() {
@@ -60,6 +67,9 @@ void Render::run() {
     while (window->isOpen()) {
         handleEvents();
         handleMouse();
+        
+        shader.setUniform("time", clock.getElapsedTime().asSeconds());
+
         draw();
         if (opc == 2) {
             sandTetrix->run();
