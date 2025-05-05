@@ -1,4 +1,5 @@
 #include "sand_tetrix.hpp"
+#include "Common/common.hpp"
 
 SandTetrix::SandTetrix(std::shared_ptr<sf::RenderWindow> window)
     : window(window), z(std::vector<sf::Vector2i>(squares, sf::Vector2i(0, 0))),
@@ -64,17 +65,17 @@ void SandTetrix::handleEvents(const sf::Event &event) {
     }
 }
 
-void SandTetrix::draw() {
-    drawBoard();
-    drawPieces();
-    drawPreview();
-    drawGameStats();
+void SandTetrix::draw(sf::RenderTarget &target) {
+    drawBoard(target);
+    drawPieces(target);
+    drawPreview(target);
+    drawGameStats(target);
     if (gameover) {
-        drawGameOver();
+        drawGameOver(target);
         isRunning = false;
     }
     if (!isRunning && !gameover) {
-        drawGameStart();
+        drawGameStart(target);
     }
 }
 

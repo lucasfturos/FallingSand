@@ -11,14 +11,13 @@ class FallingSand {
 
   private:
     int cols, rows;
-    std::shared_ptr<sf::RenderWindow> window;
     std::vector<std::vector<int>> grid;
 
     void sandMovement();
 
   public:
-    FallingSand(int, int, std::shared_ptr<sf::RenderWindow>);
+    FallingSand(int, int);
     void setupGrid();
     void mouseDragged(sf::Vector2i);
-    void draw();
+    void draw(sf::RenderTarget &);
 };

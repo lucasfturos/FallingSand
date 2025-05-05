@@ -5,61 +5,19 @@ Render::Render()
           sf::VideoMode(WIDTH, HEIGHT), "Falling Sand",
           sf::Style::Titlebar | sf::Style::Close)),
       desktop(std::make_shared<sf::VideoMode>(sf::VideoMode::getDesktopMode())),
-      fallingSand(std::make_shared<FallingSand>(WIDTH, HEIGHT, window)),
+      fallingSand(std::make_shared<FallingSand>(WIDTH, HEIGHT)),
       sandTetrix(std::make_shared<SandTetrix>(window)),
-      mousePosition(sf::Vector2i(WIDTH / 2, HEIGHT / 2)), opc(1) {
+      mousePosition(sf::Vector2i(WIDTH / 2, HEIGHT / 2)), opc(1),
+      useShader(false) {
     window->setPosition(
         sf::Vector2i(desktop->width / 2.0 - window->getSize().x / 2.0,
                      desktop->height / 2.0 - window->getSize().y / 2.0));
-}
 
-void Render::handleEvents() {
-    sf::Event event;
-    while (window->pollEvent(event)) {
-        switch (event.type) {
-        case sf::Event::Closed:
-            window->close();
-            break;
-        case sf::Event::KeyPressed: {
-            switch (event.key.code) {
-            case sf::Keyboard::Escape:
-                window->close();
-                break;
-            case sf::Keyboard::Num1:
-                opc = 1;
-                break;
-            case sf::Keyboard::Num2:
-                opc = 2;
-                break;
-            case sf::Keyboard::R: {
-                if (opc == 1) {
-                    fallingSand->setupGrid();
-                }
-                if (opc == 2) {
-                    sandTetrix->setupGame();
-                }
-                break;
-            }
-            default:
-                break;
-            }
-            break;
-        }
-        default:
-            break;
-        }
-
-        if (opc == 2) {
-            sandTetrix->handleEvents(event);
-        }
+    if (!shader.loadFromFile("assets/shader/crt_effect.frag",
+                             sf::Shader::Fragment)) {
+        throw std::runtime_error("Failed to load shader.");
     }
-}
-
-void Render::handleMouse() {
-    mousePosition = sf::Mouse::getPosition(*window);
-    if (opc == 1) {
-        fallingSand->mouseDragged(mousePosition);
-    }
+    renderTex.create(WIDTH, HEIGHT);
 }
 
 void Render::drawPointer() {
@@ -68,19 +26,32 @@ void Render::drawPointer() {
         circle.setFillColor(sf::Color::White);
         circle.setPosition(static_cast<sf::Vector2f>(mousePosition));
         circle.setOrigin(circle.getRadius(), circle.getRadius());
-        window->draw(circle);
+        renderTex.draw(circle);
     }
 }
 
 void Render::draw() {
-    window->clear();
+    renderTex.clear();
+
     if (opc == 1) {
-        fallingSand->draw();
+        fallingSand->draw(renderTex);
+    } else if (opc == 2) {
+        sandTetrix->draw(renderTex);
     }
-    if (opc == 2) {
-        sandTetrix->draw();
-    }
+
     drawPointer();
+
+    renderTex.display();
+    window->clear();
+
+    sf::Sprite sprite(renderTex.getTexture());
+
+    if (useShader) {
+        window->draw(sprite, &shader);
+    } else {
+        window->draw(sprite);
+    }
+
     window->display();
 }
 

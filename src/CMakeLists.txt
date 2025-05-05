@@ -8,6 +8,7 @@ set(SRC_HEADERS
 
 set(SRC_SOURCES
     FallingSand/falling_sand.cpp
+    Render/event.cpp
     Render/render.cpp
     SandTetrix/draw.cpp
     SandTetrix/logic.cpp

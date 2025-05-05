@@ -1,10 +1,8 @@
 #include "falling_sand.hpp"
 #include "Common/common.hpp"
 
-FallingSand::FallingSand(int screenWidth, int screenHeight,
-                         std::shared_ptr<sf::RenderWindow> window)
-    : cols(screenWidth / cellSize), rows(screenHeight / cellSize),
-      window(window) {
+FallingSand::FallingSand(int screenWidth, int screenHeight)
+    : cols(screenWidth / cellSize), rows(screenHeight / cellSize) {
     setupGrid();
 }
 
@@ -72,7 +70,7 @@ void FallingSand::sandMovement() {
     grid = nextGrid;
 }
 
-void FallingSand::draw() {
+void FallingSand::draw(sf::RenderTarget &target) {
     sandMovement();
 
     sf::CircleShape sand(cellSize);
@@ -82,7 +80,7 @@ void FallingSand::draw() {
                 sand.setFillColor(getColorByValue(grid[i][j]));
                 sand.setPosition(static_cast<float>(i * cellSize),
                                  static_cast<float>(j * cellSize));
-                window->draw(sand);
+                target.draw(sand);
             }
         }
     }

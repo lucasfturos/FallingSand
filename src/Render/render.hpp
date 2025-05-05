@@ -16,8 +16,12 @@ class Render {
     std::shared_ptr<SandTetrix> sandTetrix;
     sf::Vector2i mousePosition;
     int opc;
+    bool useShader;
 
   private:
+    sf::Shader shader;
+    sf::RenderTexture renderTex;
+
     void handleEvents();
     void handleMouse();
 

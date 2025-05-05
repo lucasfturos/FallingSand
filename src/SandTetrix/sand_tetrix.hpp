@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Common/common.hpp"
-
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <memory>
@@ -65,23 +63,25 @@ class SandTetrix {
     void setScore();
     void spawnPieces();
 
-    void drawCenteredText(sf::Vector2f, sf::Color, const std::string &, int);
-    void drawTextAtPosition(sf::Vector2f, sf::Color, const std::string &, int);
+    void drawCenteredText(sf::RenderTarget &, sf::Vector2f, sf::Color,
+                          const std::string &, int);
+    void drawTextAtPosition(sf::RenderTarget &, sf::Vector2f, sf::Color,
+                            const std::string &, int);
 
-    void drawBoard();
-    void drawFlashingPieces();
-    void drawGameOver();
-    void drawGameStart();
-    void drawGameStats();
-    void drawPieces();
-    void drawPreview();
-    void drawSandBlock(sf::Vector2f, sf::Color);
+    void drawBoard(sf::RenderTarget &);
+    void drawFlashingPieces(sf::RenderTarget &);
+    void drawGameOver(sf::RenderTarget &);
+    void drawGameStart(sf::RenderTarget &);
+    void drawGameStats(sf::RenderTarget &);
+    void drawPieces(sf::RenderTarget &);
+    void drawPreview(sf::RenderTarget &);
+    void drawSandBlock(sf::RenderTarget &, sf::Vector2f, sf::Color);
 
   public:
     SandTetrix(std::shared_ptr<sf::RenderWindow>);
 
     void setupGame();
     void handleEvents(const sf::Event &);
-    void draw();
+    void draw(sf::RenderTarget &);
     void run();
 };
