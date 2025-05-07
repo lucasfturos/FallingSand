@@ -34,6 +34,22 @@ void FallingSand::mouseDragged(sf::Vector2i mousePosition) {
     }
 }
 
+void FallingSand::resize(int width, int height) {
+    int newCols = width / cellSize;
+    int newRows = height / cellSize;
+
+    auto newGrid = make2Darray<int>(newRows, newCols);
+    for (int y = 0; y < std::min(rows, newRows); ++y) {
+        for (int x = 0; x < std::min(cols, newCols); ++x) {
+            newGrid[x][y] = grid[x][y];
+        }
+    }
+
+    cols = newCols;
+    rows = newRows;
+    grid = std::move(newGrid);
+}
+
 void FallingSand::sandMovement() {
     auto nextGrid = make2Darray<int>(rows, cols);
     for (int i = 0; i < cols; ++i) {

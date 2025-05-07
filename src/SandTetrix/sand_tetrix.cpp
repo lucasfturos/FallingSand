@@ -34,6 +34,22 @@ void SandTetrix::setupGame() {
     spawnPieces();
 }
 
+void SandTetrix::resize(int width, int height) {
+    int newCols = (width * 0.65f) / cellSize;
+    int newRows = height / cellSize;
+
+    auto newBoard = make2Darray<int>(newRows, newCols);
+    for (int y = 0; y < std::min(rows, newRows); ++y) {
+        for (int x = 0; x < std::min(cols, newCols); ++x) {
+            newBoard[x][y] = board[x][y];
+        }
+    }
+
+    cols = newCols;
+    rows = newRows;
+    board = std::move(newBoard);
+}
+
 void SandTetrix::draw(sf::RenderTarget &target) {
     drawBoard(target);
     drawPieces(target);

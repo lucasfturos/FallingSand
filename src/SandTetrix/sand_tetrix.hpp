@@ -84,6 +84,7 @@ class SandTetrix {
     SandTetrix(int, int);
 
     void setupGame();
+    void resize(int, int);
     void handleEvents(const sf::Event &);
     void draw(sf::RenderTarget &);
     void run();

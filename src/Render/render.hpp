@@ -12,9 +12,12 @@ class Render {
   private:
     std::shared_ptr<sf::RenderWindow> window;
     std::shared_ptr<sf::VideoMode> desktop;
+
     std::shared_ptr<FallingSand> fallingSand;
     std::shared_ptr<SandTetrix> sandTetrix;
+
     sf::Vector2i mousePosition;
+    
     int opc;
     bool useShader;
 

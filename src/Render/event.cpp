@@ -7,6 +7,23 @@ void Render::handleEvents() {
         case sf::Event::Closed:
             window->close();
             break;
+        case sf::Event::Resized: {
+            sf::FloatRect visibleArea(0, 0, event.size.width,
+                                      event.size.height);
+            window->setView(sf::View(visibleArea));
+
+            renderTex.create(event.size.width, event.size.height);
+            shader.setUniform("resolution", sf::Vector2f(renderTex.getSize()));
+
+            if (fallingSand) {
+                fallingSand->resize(event.size.width, event.size.height);
+            }
+            if (sandTetrix) {
+                sandTetrix->resize(event.size.width, event.size.height);
+            }
+
+            break;
+        }
         case sf::Event::KeyPressed: {
             switch (event.key.code) {
             case sf::Keyboard::Escape:

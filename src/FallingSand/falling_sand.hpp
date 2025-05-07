@@ -17,7 +17,9 @@ class FallingSand {
 
   public:
     FallingSand(int, int);
+
     void setupGrid();
+    void resize(int, int);
     void mouseDragged(sf::Vector2i);
     void draw(sf::RenderTarget &);
 };
