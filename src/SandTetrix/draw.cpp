@@ -17,30 +17,40 @@ void SandTetrix::drawBoard(sf::RenderTarget &target) {
     target.draw(lines);
 }
 
-void SandTetrix::drawSandBlock(sf::RenderTarget &target, sf::Vector2f position,
-                               sf::Color color) {
+void SandTetrix::drawBlock(sf::RenderTarget &target, sf::Vector2f position,
+                           sf::Color color) {
     sf::RectangleShape sandBlock(sf::Vector2f(cellSize - 1, cellSize - 1));
     sandBlock.setFillColor(color);
     sandBlock.setPosition(position.x, position.y);
     target.draw(sandBlock);
 }
 
+void SandTetrix::drawSandGrain(sf::RenderTarget &target, sf::Vector2f position,
+                               sf::Color color) {
+    sf::RectangleShape grain(sf::Vector2f(sandGrainSize, sandGrainSize));
+    grain.setFillColor(color);
+    grain.setPosition(position.x + (cellSize - sandGrainSize) / 2.0f,
+                      position.y + (cellSize - sandGrainSize) / 2.0f);
+    target.draw(grain);
+}
+
 void SandTetrix::drawPieces(sf::RenderTarget &target) {
     for (int y = 0; y < rows; ++y) {
         for (int x = 0; x < cols; ++x) {
             if (board[x][y] < 0) {
-                drawSandBlock(target, sf::Vector2f(x * cellSize, y * cellSize),
-                              colors[board[x][y] - 1]);
-            } else {
-                drawSandBlock(target, sf::Vector2f(x * cellSize, y * cellSize),
+                drawBlock(target, sf::Vector2f(x * cellSize, y * cellSize),
+                          colors[board[x][y] - 1]);
+            }
+            if (board[x][y] > 0) {
+                drawSandGrain(target, sf::Vector2f(x * cellSize, y * cellSize),
                               colors[board[x][y] - 1]);
             }
         }
     }
 
     for (const auto &pos : z) {
-        drawSandBlock(target, sf::Vector2f(pos.x * cellSize, pos.y * cellSize),
-                      currentPieceColor);
+        drawBlock(target, sf::Vector2f(pos.x * cellSize, pos.y * cellSize),
+                  currentPieceColor);
     }
 }
 

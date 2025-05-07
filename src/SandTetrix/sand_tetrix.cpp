@@ -1,22 +1,23 @@
 #include "sand_tetrix.hpp"
 #include "Common/common.hpp"
 
-SandTetrix::SandTetrix(std::shared_ptr<sf::RenderWindow> window)
-    : window(window), z(std::vector<sf::Vector2i>(squares, sf::Vector2i(0, 0))),
+SandTetrix::SandTetrix(int screenWidth, int screenHeight)
+    : z(std::vector<sf::Vector2i>(squares, sf::Vector2i(0, 0))),
       k(std::vector<sf::Vector2i>(squares, sf::Vector2i(0, 0))),
-      isRunning(false), cols((window->getSize().x * 0.65f) / cellSize),
-      rows(window->getSize().y / cellSize), linesCleared(0), nextPieceIndex(0),
+      isRunning(false), cols((screenWidth * 0.65f) / cellSize),
+      rows(screenHeight / cellSize), linesCleared(0), nextPieceIndex(0),
       currentPieceIndex(0),
       nextPieceColor(colors[std::rand() % colors.size()]) {
 
     if (!font.loadFromFile(filepathFont)) {
         throw std::runtime_error("Error loading font.");
     }
+
     setupGame();
 }
 
 void SandTetrix::setupGame() {
-    board = make2Darray(rows, cols);
+    board = make2Darray<int>(rows, cols);
     for (auto &row : board) {
         std::fill(row.begin(), row.end(), 0);
     }
@@ -31,38 +32,6 @@ void SandTetrix::setupGame() {
     clock.restart();
 
     spawnPieces();
-}
-
-void SandTetrix::handleEvents(const sf::Event &event) {
-    if (event.type == sf::Event::KeyPressed) {
-        switch (event.key.code) {
-        case sf::Keyboard::W:
-            // Gira
-            rotate = true;
-            break;
-        case sf::Keyboard::S: {
-            // Dash
-            dash = 0.05f;
-            break;
-        }
-        case sf::Keyboard::A: {
-            // Move para esquerda
-            --dirX;
-            break;
-        }
-        case sf::Keyboard::D: {
-            // Move para direita
-            ++dirX;
-            break;
-        }
-        case sf::Keyboard::Space:
-            // Pause
-            isRunning = !isRunning;
-            break;
-        default:
-            break;
-        }
-    }
 }
 
 void SandTetrix::draw(sf::RenderTarget &target) {
@@ -85,6 +54,7 @@ void SandTetrix::run() {
     timerCount += t;
     if (isRunning && !gameover) {
         elapsedTime += t;
+
         changePosition();
         setRotate();
         move2Down();

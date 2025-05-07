@@ -7,7 +7,7 @@ FallingSand::FallingSand(int screenWidth, int screenHeight)
 }
 
 void FallingSand::setupGrid() {
-    grid = make2Darray(rows, cols);
+    grid = make2Darray<int>(rows, cols);
     for (auto &row : grid) {
         std::fill(row.begin(), row.end(), 0);
     }
@@ -35,7 +35,7 @@ void FallingSand::mouseDragged(sf::Vector2i mousePosition) {
 }
 
 void FallingSand::sandMovement() {
-    auto nextGrid = make2Darray(rows, cols);
+    auto nextGrid = make2Darray<int>(rows, cols);
     for (int i = 0; i < cols; ++i) {
         for (int j = 0; j < rows; ++j) {
             if (grid[i][j] > 0) {

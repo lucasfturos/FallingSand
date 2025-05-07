@@ -5,8 +5,11 @@
 #include <sstream>
 #include <vector>
 
-inline std::vector<std::vector<int>> make2Darray(int rows, int cols) {
-    return std::vector<std::vector<int>>(cols, std::vector<int>(rows, 0));
+template <typename T>
+inline std::vector<std::vector<T>> make2Darray(int rows, int cols,
+                                               const T &defaultValue = T()) {
+    return std::vector<std::vector<T>>(cols,
+                                       std::vector<T>(rows, defaultValue));
 }
 
 inline sf::Color HSV2RGB(float h, float s, float v) {

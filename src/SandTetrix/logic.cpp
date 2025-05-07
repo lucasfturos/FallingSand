@@ -48,7 +48,7 @@ void SandTetrix::setRotate() {
 }
 
 void SandTetrix::sandMovement() {
-    auto nextBoard = make2Darray(rows, cols);
+    auto nextBoard = make2Darray<int>(rows, cols);
     for (int i = 0; i < cols; ++i) {
         for (int j = 0; j < rows; ++j) {
             if (board[i][j] > 0) {
@@ -92,11 +92,10 @@ void SandTetrix::move2Down() {
         if (checkCollision()) {
             for (const auto &pos : k) {
                 if (pos.y >= 0) {
+                    auto colorIt = std::find(colors.begin(), colors.end(),
+                                             currentPieceColor);
                     board[pos.x][pos.y] =
-                        std::distance(colors.begin(),
-                                      std::find(colors.begin(), colors.end(),
-                                                currentPieceColor)) +
-                        1;
+                        std::distance(colors.begin(), colorIt) + 1;
                 }
             }
             spawnPieces();

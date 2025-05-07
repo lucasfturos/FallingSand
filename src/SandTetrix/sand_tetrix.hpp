@@ -30,15 +30,16 @@ class SandTetrix {
     };
 
   private:
-    std::shared_ptr<sf::RenderWindow> window;
     std::vector<sf::Vector2i> z;
     std::vector<sf::Vector2i> k;
+
     bool isRunning;
     int cols;
     int rows;
     int linesCleared;
     int nextPieceIndex;
     int currentPieceIndex;
+
     sf::Color currentPieceColor;
 
     sf::Font font;
@@ -52,6 +53,7 @@ class SandTetrix {
     float dash;
     float timerCount;
     float elapsedTime;
+
     std::vector<std::vector<int>> board;
 
     void changePosition();
@@ -69,16 +71,17 @@ class SandTetrix {
                             const std::string &, int);
 
     void drawBoard(sf::RenderTarget &);
-    void drawFlashingPieces(sf::RenderTarget &);
+    void drawPieces(sf::RenderTarget &);
+    void drawPreview(sf::RenderTarget &);
+    void drawBlock(sf::RenderTarget &, sf::Vector2f, sf::Color);
+    void drawSandGrain(sf::RenderTarget &, sf::Vector2f, sf::Color);
+
     void drawGameOver(sf::RenderTarget &);
     void drawGameStart(sf::RenderTarget &);
     void drawGameStats(sf::RenderTarget &);
-    void drawPieces(sf::RenderTarget &);
-    void drawPreview(sf::RenderTarget &);
-    void drawSandBlock(sf::RenderTarget &, sf::Vector2f, sf::Color);
 
   public:
-    SandTetrix(std::shared_ptr<sf::RenderWindow>);
+    SandTetrix(int, int);
 
     void setupGame();
     void handleEvents(const sf::Event &);

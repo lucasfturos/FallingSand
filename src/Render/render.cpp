@@ -3,15 +3,19 @@
 Render::Render()
     : window(std::make_shared<sf::RenderWindow>(
           sf::VideoMode(WIDTH, HEIGHT), "Falling Sand",
-          sf::Style::Titlebar | sf::Style::Close)),
+          sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize)),
       desktop(std::make_shared<sf::VideoMode>(sf::VideoMode::getDesktopMode())),
-      fallingSand(std::make_shared<FallingSand>(WIDTH, HEIGHT)),
-      sandTetrix(std::make_shared<SandTetrix>(window)),
-      mousePosition(sf::Vector2i(WIDTH / 2, HEIGHT / 2)), opc(1),
-      useShader(false) {
+      opc(1), useShader(false) {
     window->setPosition(
         sf::Vector2i(desktop->width / 2.0 - window->getSize().x / 2.0,
                      desktop->height / 2.0 - window->getSize().y / 2.0));
+
+    sf::Vector2i screenPos(window->getSize().x, window->getSize().y);
+
+    fallingSand = std::make_shared<FallingSand>(screenPos.x, screenPos.y);
+    sandTetrix = std::make_shared<SandTetrix>(screenPos.x, screenPos.y);
+
+    mousePosition = sf::Vector2i(screenPos.x / 2, screenPos.y / 2);
 
     setupShader();
 }
@@ -67,7 +71,7 @@ void Render::run() {
     while (window->isOpen()) {
         handleEvents();
         handleMouse();
-        
+
         shader.setUniform("time", clock.getElapsedTime().asSeconds());
 
         draw();
