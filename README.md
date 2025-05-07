@@ -6,9 +6,11 @@ Feito em C++ e SFML.
 
 ## Screenshot
 
-Tela do programa após algumas iterações.
+Tela do programa após algumas iterações, também com e sem filtro CRT (TV de tubo).
 
 <img src="./screenshot/sand.png" width="80%">
+
+<img src="./screenshot/sand_filterCRT.png" width="80%">
 
 ## Instalação
 
