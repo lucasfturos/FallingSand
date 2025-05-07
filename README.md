@@ -8,9 +8,9 @@ Feito em C++ e SFML.
 
 Tela do programa após algumas iterações, também com e sem filtro CRT (TV de tubo).
 
-<img src="./screenshot/sand.png" width="80%">
+![](./screenshot/sand.png)
 
-<img src="./screenshot/sand_filterCRT.png" width="80%">
+![](./screenshot/sand_filterCRT.png)
 
 ## Instalação
 
