@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include <string>
 
 class Menu {
   protected:
@@ -15,6 +14,10 @@ class Menu {
     sf::Text option1;
     sf::Text option2;
     sf::Text option3;
+
+    sf::Shader waveShader;
+    sf::RectangleShape bgShader;
+    sf::Clock clock;
 
     int selectedOption;
 

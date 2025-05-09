@@ -6,6 +6,14 @@ Menu::Menu(int width, int height) : selectedOption(0) {
         throw std::runtime_error("Failed to load font.");
     }
 
+    if (!waveShader.loadFromFile("assets/shader/menu.frag",
+                                 sf::Shader::Fragment)) {
+        throw std::runtime_error("Failed to load menu shader.");
+    }
+
+    bgShader.setSize(sf::Vector2f(width, height));
+    bgShader.setPosition(0, 0);
+
     title.setFont(font);
     option1.setFont(font);
     option2.setFont(font);
@@ -14,7 +22,10 @@ Menu::Menu(int width, int height) : selectedOption(0) {
     layoutOption(width, height);
 }
 
-void Menu::resize(int width, int height) { layoutOption(width, height); }
+void Menu::resize(int width, int height) {
+    layoutOption(width, height);
+    bgShader.setSize(sf::Vector2f(width, height));
+}
 
 void Menu::layoutOption(int w, int h) {
     float scale = w / 1080.0f;
@@ -91,7 +102,12 @@ void Menu::highlightOption(sf::RenderWindow &window, sf::Text &option,
 }
 
 void Menu::draw(sf::RenderWindow &window) {
+    float time = clock.getElapsedTime().asSeconds();
+    waveShader.setUniform("time", time);
+    waveShader.setUniform("resolution", sf::Vector2f(window.getSize()));
+
     window.clear();
+    window.draw(bgShader, &waveShader);
     window.draw(title);
 
     borderOption(window);
