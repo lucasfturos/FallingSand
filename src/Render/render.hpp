@@ -1,8 +1,8 @@
 #pragma once
 
 #include "FallingSand/falling_sand.hpp"
+#include "Menu/menu.hpp"
 #include "SandTetrix/sand_tetrix.hpp"
-#include <memory>
 
 class Render {
   protected:
@@ -13,15 +13,17 @@ class Render {
     std::shared_ptr<sf::RenderWindow> window;
     std::shared_ptr<sf::VideoMode> desktop;
 
+    std::shared_ptr<Menu> menu;
     std::shared_ptr<FallingSand> fallingSand;
     std::shared_ptr<SandTetrix> sandTetrix;
 
     sf::Vector2i mousePosition;
-    
-    int opc;
+
     bool useShader;
 
   private:
+    int opc;
+    
     sf::Clock clock;
     sf::Shader shader;
     sf::RenderTexture renderTex;
@@ -30,6 +32,7 @@ class Render {
 
     void handleEvents();
     void handleMouse();
+    void resetGameState();
 
     void drawPointer();
     void draw();

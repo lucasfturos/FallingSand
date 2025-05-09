@@ -5,6 +5,7 @@ add_executable(${PROJECT_NAME}
 )
 
 add_subdirectory(FallingSand)
+add_subdirectory(Menu)
 add_subdirectory(Render)
 add_subdirectory(SandTetrix)
 
